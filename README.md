@@ -1,6 +1,6 @@
 # qPSP-Pro
 
-Continuous pathway scoring with signed coherence decomposition (SCD).
+Minimal code for the four-architecture qPSP-Pro simulation experiment.
 
 ## Install
 
@@ -74,7 +74,7 @@ result.significance.to_csv("pathway_significance.tsv", sep="\t", index=False)
 result.member_effects.to_csv("member_effects.tsv", sep="\t", index=False)
 ```
 
-`pathway_scores` contains sample-level pathway scores. `significance` reports pathway-score, net-shift and discordance permutation tests with Benjamini–Hochberg correction. `member_effects` reports protein-level SCD contributions.
+`pathway_scores` contains sample-level qPSP-Pro pathway scores. `significance` reports pathway-score, net-shift and directional-discordance permutation tests with Benjamini–Hochberg correction. `member_effects` reports member-protein contributions to the pathway-architecture summaries.
 
 ## Calculation
 
@@ -82,7 +82,7 @@ For each sample, abundance ranks are transformed to quantiles `(rank - 1) / (n -
 
 For topology weighting, qPSP-Pro extracts each pathway's internal Reactome FI subnetwork at confidence `>= 0.75`, calculates confidence-weighted degree, normalizes degree to mean one and applies `lambda = 0.5` shrinkage toward uniform weight. The pathway score is the kernel- and topology-weighted mean rank quantile.
 
-SCD calculates the weighted net shift, absolute shift, discordance and discordance fraction from protein-level between-group rank shifts. Repeated measurements are averaged by participant before group permutation. Pathway and SCD tests use separate Benjamini–Hochberg adjustments.
+The simulation also derives topology-weighted net shift, absolute shift, directional discordance and discordance fraction from protein-level between-group rank shifts. Repeated measurements are averaged by participant before group permutation.
 
 ## Simulated application
 
@@ -90,7 +90,7 @@ SCD calculates the weighted net shift, absolute shift, discordance and discordan
 
 The four signal architectures are:
 
-| Scenario | Group A signal |
+| Architecture | Group A signal |
 |---|---|
 | `coordinated_up` | every pathway member `+0.62` |
 | `coordinated_down` | every pathway member `-0.62` |
@@ -103,4 +103,4 @@ Run the simulation:
 python examples/simulate_expression.py
 ```
 
-The script generates expression values for each scenario, calls `qpsp_pro` with the packaged Reactome FI edges and prints pathway recovery, effect size, net shift and discordance fraction. It uses 499 permutations per scenario.
+The script generates expression values for each architecture, calls the compact simulation implementation and prints pathway recovery, effect size, net shift and discordance fraction. Each inferential test uses 9,999 permutations.

@@ -63,7 +63,7 @@ for pathway, catalogue_members in pathway_catalogue.items():
         break
 
 seed = 20260720
-scenarios = ("coordinated_up", "coordinated_down", "cancellation", "core_shift")
+architectures = ("coordinated_up", "coordinated_down", "cancellation", "core_shift")
 n_background = 120
 n_true = 5
 n_participants_per_group = 16
@@ -73,8 +73,8 @@ genes = pathway_genes + background_genes
 true_pathways = set(list(pathways)[:n_true])
 
 summaries = []
-for scenario_index, scenario in enumerate(scenarios):
-    rng = np.random.default_rng(seed + scenario_index * 100_000)
+for architecture_index, architecture in enumerate(architectures):
+    rng = np.random.default_rng(seed + architecture_index * 100_000)
     participants = [f"A{i:02d}" for i in range(n_participants_per_group)] + [
         f"B{i:02d}" for i in range(n_participants_per_group)
     ]
@@ -102,11 +102,11 @@ for scenario_index, scenario in enumerate(scenarios):
     group_a_columns = [i for i, sample in enumerate(samples) if groups[sample] == "A"]
     for pathway in sorted(true_pathways):
         members = pathways[pathway]
-        if scenario == "coordinated_up":
+        if architecture == "coordinated_up":
             shifts = {gene: 0.62 for gene in members}
-        elif scenario == "coordinated_down":
+        elif architecture == "coordinated_down":
             shifts = {gene: -0.62 for gene in members}
-        elif scenario == "cancellation":
+        elif architecture == "cancellation":
             shifts = {
                 gene: (0.76 if i < len(members) // 2 else -0.76)
                 for i, gene in enumerate(members)
@@ -138,8 +138,8 @@ for scenario_index, scenario in enumerate(scenarios):
         kappa=30,
         min_detected=3,
         min_coverage=0.1,
-        n_permutations=499,
-        seed=seed + scenario_index * 100_000,
+        n_permutations=9999,
+        seed=seed + architecture_index * 100_000,
     )
 
     statistics = result.significance.set_index("pathway")
@@ -147,7 +147,7 @@ for scenario_index, scenario in enumerate(scenarios):
     true_statistics = statistics.loc[sorted(true_pathways)]
     summaries.append(
         {
-            "scenario": scenario,
+            "architecture": architecture,
             "true_in_top5": int(
                 sum(pathway in true_pathways for pathway in ranked.head(5).index)
             ),

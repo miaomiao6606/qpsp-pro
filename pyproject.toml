@@ -5,7 +5,7 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "qpsp-pro"
 version = "0.1.0"
-description = "Continuous pathway scoring with signed coherence decomposition"
+description = "Minimal qPSP-Pro four-architecture simulation experiment"
 readme = "README.md"
 requires-python = ">=3.10"
 dependencies = [
