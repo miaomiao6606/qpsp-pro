@@ -4,8 +4,8 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "qpsp-pro"
-version = "0.1.0"
-description = "Minimal qPSP-Pro four-architecture simulation experiment"
+version = "0.16.0"
+description = "Topology-aware continuous pathway scoring with signed coherence decomposition"
 readme = "README.md"
 requires-python = ">=3.10"
 dependencies = [
@@ -19,3 +19,10 @@ package-dir = {"" = "src"}
 
 [tool.setuptools.packages.find]
 where = ["src"]
+
+[project.optional-dependencies]
+test = ["pytest>=7"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["src"]

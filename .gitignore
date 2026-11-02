@@ -4,3 +4,12 @@ __pycache__/
 .venv/
 build/
 dist/
+
+# Keep local analysis inputs and outputs outside the public source tree.
+/private_data/
+/local_data/
+/results/
+/outputs/
+.env
+.env.*
+.ipynb_checkpoints/
